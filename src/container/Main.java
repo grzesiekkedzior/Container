@@ -21,6 +21,7 @@ public class Main {
         container.addSorted("wish");
         container.addSorted("lis");
         
+        
         container.showAll();
     }
     

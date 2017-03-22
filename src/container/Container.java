@@ -1,9 +1,12 @@
+package container;
+
 import java.util.Optional;
 
 interface Opcje<T> {
     void showAll();
     void addOnBack(T n);
     void add(T n);
+    void addSorted(T n);
    // T size();
     //T getNode(T n);
 }
@@ -52,6 +55,24 @@ class Container<T> implements Opcje<T>{
             System.out.println(current.num);
             current = current.next;
         }
+    }
+
+    @Override
+    public void addSorted(T n) {
+           
+            insert = new Numbers<>(n);
+            previous = null;
+            current = top;
+            
+            while(current!=null && current.num.toString().compareToIgnoreCase(n.toString())<0) {
+                    previous = current;
+                    current = current.next;
+            }
+          
+                insert.next = current;
+                if(previous==null) top = insert;  
+                else
+                previous.next = insert;
     }
 }
 
