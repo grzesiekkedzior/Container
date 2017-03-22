@@ -11,7 +11,15 @@ package container;
  */
 public class Main {
     public static void main(String args[]) {
-        Container<Integer> c;
+        Container<String> container = new Container<>();
+        container.addSorted("alpha");
+        container.addSorted("bravo");
+        container.addSorted("zeta");
+        container.addSorted("delta");
+        container.addSorted("charlie");
+        container.addSorted("theta");
+        container.addSorted("wish");
+        container.showAll();
     }
     
 }
