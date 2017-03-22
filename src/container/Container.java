@@ -2,6 +2,7 @@ package container;
 
 import java.util.Optional;
 
+
 interface Opcje<T> {
     void showAll();
     void addOnBack(T n);
