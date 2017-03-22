@@ -19,6 +19,8 @@ public class Main {
         container.addSorted("charlie");
         container.addSorted("theta");
         container.addSorted("wish");
+        container.addSorted("lis");
+        
         container.showAll();
     }
     
