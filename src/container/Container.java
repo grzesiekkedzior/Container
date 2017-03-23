@@ -9,6 +9,8 @@ interface Opcje<T> {
     void addOnBack(T n);
     void add(T n);
     void addSorted(T n);
+    int size();
+    T getNode(int n);
    // T size();
     //T getNode(T n);
 }
@@ -75,6 +77,40 @@ class Container<T> implements Opcje<T>{
                 if(previous==null) top = insert;  
                 else
                 previous.next = insert;
+    }
+
+    @Override
+    public int size() {
+        int size = 0;
+        current = top;
+        while(current!=null) {
+            size++;
+            current = current.next;
+        }
+        return size;
+    }
+
+    @Override
+    public T getNode(int n) {
+        int size = this.size();
+        Numbers<T> searchingNumber = top;
+        Numbers<T> target = null;
+        T t = null;
+        if(n<=size()&& searchingNumber!=null) {
+            for(int a=0; a<n; a++) {
+                target = searchingNumber;
+                System.out.println("inside loop " + searchingNumber.num);
+                searchingNumber = searchingNumber.next;      
+            }       
+        }
+        else System.out.println("indexOut");
+        if(target!=null) t = target.num;
+        else System.out.println("null");
+        
+        return t;
+    }
+    public Numbers getTop() {
+        return this.top;
     }
 }
 

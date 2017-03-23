@@ -22,8 +22,10 @@ public class Main {
         container.addSorted("theta");
         container.addSorted("wish");
         container.addSorted("lis");
+        System.out.println(container.size());
         
         
+        System.out.println("getNode " + container.getNode(7) + "\n");
         container.showAll();
     }
     
