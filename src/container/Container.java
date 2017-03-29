@@ -19,6 +19,7 @@ interface List<T> {
     void removeNode(int n);
 
     <T> void reverse(Element top);
+
 }
 
 class Container<T> implements List<T> {
@@ -29,6 +30,29 @@ class Container<T> implements List<T> {
     private Element<T> insert = null;
     private Element<T> previous = null;
     Optional<T> optional = Optional.empty();
+
+    public Container() {
+    }
+
+    public Container(int tab[]) {
+        for (int a : tab) {
+            T t = (T) (Integer) a;
+            this.add(t);
+        }
+    }
+
+    public Container(double tab[]) {
+        for (double a : tab) {
+            T t = (T) (Double) a;
+            this.add(t);
+        }
+    }
+
+    public Container(T tab[]) {
+        for (T t : tab) {
+            this.add(t);
+        }
+    }
 
     @Override
     public void add(T n) {
@@ -171,6 +195,7 @@ class Container<T> implements List<T> {
             System.out.println(top.num);
         }
     }
+
 }
 
 class Element<T> {

@@ -5,28 +5,23 @@
  */
 package container;
 
-
-
 /**
  *
  * @author grzesiek
  */
 public class Main {
+
     public static void main(String args[]) {
-        Container<String> container = new Container<>();
-        container.addSorted("alpha");
-        container.addSorted("bravo");
-        container.addSorted("zeta");
-        container.addSorted("delta");
-        container.addSorted("charlie");
-        container.addSorted("theta");
-        container.addSorted("wish");
-        container.addSorted("lis");
-        System.out.println(container.size());
-        
-        
-        System.out.println("getNode " + container.getNode(7) + "\n");
-        container.showAll();
+
+        double[] tab = {1.22, 2.33, 3.11};
+        Container<Double> integer = new Container<>(tab);
+        integer.showAll();
+        Container<Integer> integer2 = new Container<>();
+        for (int a = 1; a < 100000; a++) {
+            integer2.addSorted(a);
+        }
+        integer2.addSorted(10000);
+        integer2.showAll();
     }
-    
+
 }
