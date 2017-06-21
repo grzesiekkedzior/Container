@@ -1,4 +1,8 @@
-package container;
+/*
+`* To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 import java.util.Optional;
 
@@ -7,7 +11,6 @@ interface List<T> {
     void showAll();
 
     void addOnBack(T n);
-
     void add(T n);
 
     void addSorted(T n);
@@ -15,18 +18,17 @@ interface List<T> {
     int size();
 
     T getNode(int n);
-
     void removeNode(int n);
-
     <T> void reverse(Element top);
 
 }
 
 class Container<T> implements List<T> {
 
+    // general and top are main list
     private Element<T> top = null;
     private Element<T> current = null;
-    private Element<T> last = null;
+    private Element<T> general = null;
     private Element<T> insert = null;
     private Element<T> previous = null;
     Optional<T> optional = Optional.empty();
@@ -57,17 +59,31 @@ class Container<T> implements List<T> {
     @Override
     public void add(T n) {
         optional = Optional.ofNullable(n);
-        while (optional.isPresent()) {
+        if (optional.isPresent()) {
             current = new Element<>(n);
             if (top == null) {
                 top = current;
             } else {
-                last.next = current;
+                general.next = current;
             }
-            last = current;
-            System.out.println("number " + current.num);
-            break;
+            general = current;
         }
+    }
+
+    @Override
+    public void addSorted(T n) {
+
+        insert = new Element<>(n);
+        previous = null;
+        current = top;
+        general = insert;
+        if (general != null && general.num instanceof Integer) {
+            sortedInteger(n);
+        }
+        if (general != null && general.num instanceof String) {
+            sortedString(n);
+        }
+
     }
 
     @Override
@@ -79,7 +95,49 @@ class Container<T> implements List<T> {
             current.next = top;
 
             top = current;
-            System.out.println("number " + top.num);
+        }
+    }
+
+    public void sortedString(T n) {
+        String gg = null;
+        if (general != null && general.num instanceof String && general.num.toString().compareToIgnoreCase(n.toString()) < 0) {
+            gg = (String) general.num;
+            this.add(n);
+        } else {
+
+            while (current != null
+                    && current.num instanceof String
+                    && current.num.toString().compareToIgnoreCase(n.toString()) < 0) {
+                previous = current;
+                current = current.next;
+            }
+            this.toSortedMethod();
+        }
+    }
+
+    public void sortedInteger(T n) {
+        int a;
+        int b;
+        int g = 0;
+        if (general != null && general.num instanceof Integer && g >= (a = (Integer) n)) {
+            g = (Integer) general.num;
+            this.add(n);
+        } else {
+            while (current != null && current.num instanceof Integer
+                    && (b = (Integer) current.num) < (a = (Integer) n)) {
+                previous = current;
+                current = current.next;
+            }
+            this.toSortedMethod();
+        }
+    }
+
+    public void toSortedMethod() {
+        insert.next = current;
+        if (previous == null) {
+            top = general = insert;
+        } else {
+            previous.next = insert;
         }
     }
 
@@ -87,40 +145,10 @@ class Container<T> implements List<T> {
     public void showAll() {
         current = top;
         while (current != null) {
-            System.out.println(current.num);
+        	
+            System.out.print(current.num + " ");
+            
             current = current.next;
-        }
-    }
-
-    @Override
-    public void addSorted(T n) {
-        int a = 0;
-        int b = 0;
-        insert = new Element<>(n);
-        previous = null;
-        current = top;
-        if (current != null && current.num instanceof Integer) {
-            a = (Integer) n;
-        }
-
-        while (current != null && current.num instanceof Integer
-                && (b = (Integer) current.num) < a) {
-            previous = current;
-            current = current.next;
-        }
-
-        while (current != null
-                && current.num instanceof String
-                && current.num.toString().compareToIgnoreCase(n.toString()) < 0) {
-            previous = current;
-            current = current.next;
-        }
-
-        insert.next = current;
-        if (previous == null) {
-            top = insert;
-        } else {
-            previous.next = insert;
         }
     }
 
@@ -133,6 +161,18 @@ class Container<T> implements List<T> {
             current = current.next;
         }
         return size;
+    }
+
+    public Element<T> getTop() {
+        return this.top;
+    }
+
+    @Override
+    public <T> void reverse(Element top) {
+        if (top != null) {
+            reverse(top.next);
+            System.out.println(top.num);
+        }
     }
 
     @Override
@@ -159,10 +199,6 @@ class Container<T> implements List<T> {
         return t;
     }
 
-    public Element<T> getTop() {
-        return this.top;
-    }
-
     @Override
     public void removeNode(int n) {
         if (n <= 0 || n > size()) {
@@ -186,14 +222,6 @@ class Container<T> implements List<T> {
             }
         }
 
-    }
-
-    @Override
-    public <T> void reverse(Element top) {
-        if (top != null) {
-            reverse(top.next);
-            System.out.println(top.num);
-        }
     }
 
 }
