@@ -55,9 +55,16 @@ import java.util.function.Consumer;
  * Simplier is use method reference:
  * 
  * list.forEach(System.out::println);
+ * 
+ * The sort() method return new List.
+ * 
+ * List<Integer> list = new List<>(5, 4, 3, 2, 1);
+ * List<Integer> secondList = list.sort();
+ * return secondList -> 1, 2, 3, 4, 5
+ * 
  * }</pre>
  *
- * @author grzesiek
+ * @author Grzegorz Kedzior
  * @param <T> Type of collection element
  */
 public class Container<T> implements List<T> {
@@ -105,7 +112,7 @@ public class Container<T> implements List<T> {
     }
 
     /**
-     * Construct which agregate many elements..
+     * Construct which agregate many elements.
      * 
      * @param args collection elements
      */
@@ -132,7 +139,7 @@ public class Container<T> implements List<T> {
     }
 
     /**
-     * Appends the specified element to the end of this list.
+     * Appends the specified element before the first.
      */
     @Override
     public void addOnBack(T n) {
@@ -291,7 +298,7 @@ public class Container<T> implements List<T> {
      */
     @Override
     public <T> T[] toArray(T[] arr) {
-        Class<T> type = (Class<T>) arr.getClass().getComponentType();
+        Class<T> type = (Class<T>) arr.getClass().getComponentType(); //return object reference type
         int i = 0;
         T[] tab = (T[]) Array.newInstance(type, this.size());
 
@@ -305,9 +312,19 @@ public class Container<T> implements List<T> {
         return tab;
     }
     
+    /**
+     * This method sort List but not exactly the same but return new one.
+     * @param <T> Type of element
+     * @return new linked List
+     */
     @Override
-    public void sort() {
+    public List<T> sort() {
+    	List<T> l = new Container();
+        for(T t : this) {
+        	l.addSorted(t);
+        }
         
+        return l;
     }
 
     @Override

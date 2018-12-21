@@ -53,8 +53,11 @@ public interface List<T> extends Iterable<T>{
          * @return Return the new array
          */
 	<T> T[] toArray(T[] arr);
-       
-        void sort();
+    /**
+     * This method sort List but not exactly the same but return new one.
+     * @return new linked List
+     */
+    List<T> sort();
 
 
 }
