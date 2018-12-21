@@ -1,28 +1,66 @@
 package container;
 
+import java.lang.reflect.Array;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
-interface List<T> {
-
-    void showAll();
-
-    void addOnBack(T n);
-
-    void add(T n);
-
-    void addSorted(T n);
-
-    int size();
-
-    T getNode(int n);
-
-    void removeNode(int n);
-
-    <T> void reverse(Element top);
-
-}
-
-class Container<T> implements List<T> {
+/**
+ * This is implementation of List interface.
+ * <p>
+ * The main algorithm which is used is linked list. The method addSorted for
+ * many items is slow.
+ * <p>
+ * If you want add only one element unsorted use only add method.
+ * <p>
+ * Example:
+ * <pre>{@code
+ * Constructor cannot be empty. There is no capacity initialize value.
+ *
+ * List<Integer> list = new Container<>(1, 2, 3, 4);
+ * list.add(1);
+ * list.showAll();
+ *
+ * int[] arr = {1, 2, 3, 4};
+ * List<Integer> list = new Container(arr);
+ * list.showAll();
+ *
+ * If you are going to change your list to array is one method to do that
+ * for simple way.
+ *
+ * List<Integer> list = new Container<>(1, 2, 3, 4);
+ * Integer[] arr = new Integer[nevermind how capacity you put to array];
+ * toArray() method change capacity.
+ *
+ * arr = list.toArray(arr);
+ *
+ * To print console:
+ * for(int i : arr) {System.out.println(i)};
+ * 
+ * In this project is implemented own interface Iterable<T>
+ * It can be use like usually.
+ * For exaample:
+ * 
+ * List<Integer> list = new Container<>(1, 2, 3, 4);
+ * for(int i : list) { System.out.println(i); }
+ * 
+ * In that case it can be use lambda expression.
+ * 
+ * list.forEach(num -> { System.out.println(num); });
+ *
+ * Simplier is use method reference:
+ * 
+ * list.forEach(System.out::println);
+ * }</pre>
+ *
+ * @author grzesiek
+ * @param <T> Type of collection element
+ */
+public class Container<T> implements List<T> {
 
     private Element<T> top = null;
     private Element<T> current = null;
@@ -31,9 +69,11 @@ class Container<T> implements List<T> {
     private Element<T> previous = null;
     Optional<T> optional = Optional.empty();
 
-    public Container() {
-    }
-
+    /**
+     * Construct an list which get array of integer elements.
+     *
+     * @param tab the array contain collection
+     */
     public Container(int tab[]) {
         for (int a : tab) {
             T t = (T) (Integer) a;
@@ -41,6 +81,11 @@ class Container<T> implements List<T> {
         }
     }
 
+    /**
+     * Construct an list which get array of double elements.
+     *
+     * @param tab the array contain collection
+     */
     public Container(double tab[]) {
         for (double a : tab) {
             T t = (T) (Double) a;
@@ -48,12 +93,28 @@ class Container<T> implements List<T> {
         }
     }
 
-    public Container(T tab[]) {
-        for (T t : tab) {
-            this.add(t);
+    /**
+     * Construct an list which get array of Generic elements.
+     *
+     * @param tab the runtime type of the array to contain the collection
+     */
+    public Container(String tab[]) {
+        for (String t : tab) {
+            this.add((T) t);
         }
     }
 
+    /**
+     * Construct which agregate many elements..
+     * 
+     * @param args collection elements
+     */
+    public Container(T... args) {
+        this.of(args);
+    }
+    /**
+     * Appends the specified element to the list.
+     */
     @Override
     public void add(T n) {
         optional = Optional.ofNullable(n);
@@ -65,11 +126,14 @@ class Container<T> implements List<T> {
                 last.next = current;
             }
             last = current;
-            System.out.println("number " + current.num);
             break;
         }
+
     }
 
+    /**
+     * Appends the specified element to the end of this list.
+     */
     @Override
     public void addOnBack(T n) {
         optional = Optional.ofNullable(n);
@@ -79,10 +143,12 @@ class Container<T> implements List<T> {
             current.next = top;
 
             top = current;
-            System.out.println("number " + top.num);
         }
     }
 
+    /**
+     * Show all elements.
+     */
     @Override
     public void showAll() {
         current = top;
@@ -92,8 +158,12 @@ class Container<T> implements List<T> {
         }
     }
 
+    /**
+     * Appends the specified generic element for the next smallest element.
+     */
     @Override
     public void addSorted(T n) {
+
         int a = 0;
         int b = 0;
         insert = new Element<>(n);
@@ -109,8 +179,7 @@ class Container<T> implements List<T> {
             current = current.next;
         }
 
-        while (current != null
-                && current.num instanceof String
+        while (current != null && current.num instanceof String
                 && current.num.toString().compareToIgnoreCase(n.toString()) < 0) {
             previous = current;
             current = current.next;
@@ -124,6 +193,11 @@ class Container<T> implements List<T> {
         }
     }
 
+    /**
+     * Returns the number of elements in this list.
+     *
+     * @return the number of elements in this list
+     */
     @Override
     public int size() {
         int size = 0;
@@ -135,6 +209,9 @@ class Container<T> implements List<T> {
         return size;
     }
 
+    /**
+     * Returns the element at the specified position in this list.
+     */
     @Override
     public T getNode(int n) {
         int size = this.size();
@@ -144,7 +221,6 @@ class Container<T> implements List<T> {
         if (n <= size() && searchingNumber != null) {
             for (int a = 0; a < n; a++) {
                 target = searchingNumber;
-                System.out.println("inside loop " + searchingNumber.num);
                 searchingNumber = searchingNumber.next;
             }
         } else {
@@ -159,10 +235,28 @@ class Container<T> implements List<T> {
         return t;
     }
 
+    /**
+     *
+     * @return first top list reference
+     */
     public Element<T> getTop() {
         return this.top;
     }
 
+    /**
+     * This method agregate many elements.
+     *
+     * @param args varargs elements
+     */
+    public void of(T... args) {
+        for (T element : args) {
+            this.add(element);
+        }
+    }
+
+    /**
+     * Removes the element at the specified position in this list.
+     */
     @Override
     public void removeNode(int n) {
         if (n <= 0 || n > size()) {
@@ -188,16 +282,81 @@ class Container<T> implements List<T> {
 
     }
 
+    /**
+     * This method generated Array.
+     *
+     * @param <T> Type of element
+     * @param arr An array created to past elements for itsselfs
+     * @return Return the new array
+     */
     @Override
-    public <T> void reverse(Element top) {
-        if (top != null) {
-            reverse(top.next);
-            System.out.println(top.num);
+    public <T> T[] toArray(T[] arr) {
+        Class<T> type = (Class<T>) arr.getClass().getComponentType();
+        int i = 0;
+        T[] tab = (T[]) Array.newInstance(type, this.size());
+
+        current = top;
+        while (current != null) {
+            tab[i] = (T) current.num;
+            current = current.next;
+            i++;
+        }
+
+        return tab;
+    }
+    
+    @Override
+    public void sort() {
+        
+    }
+
+    @Override
+    public void forEach(Consumer<? super T> action) {
+        for (T t : this) {
+            action.accept(t);
         }
     }
 
+    @Override
+    public Iterator<T> iterator() {
+
+        List<T> l = this;
+        Iterator<T> it = new Iterator<T>() {
+
+            int currentIndex = 1;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex <= l.size() && l.getNode(currentIndex) != null;
+            }
+
+            @Override
+            public T next() {
+                return l.getNode(currentIndex++);
+            }
+
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+
+        };
+        return it;
+    }
+
+    @Override
+    public Spliterator<T> spliterator() {
+        return null;
+    }
+
+    
+
 }
 
+/**
+ * @author grzesiek This class is only used to create toolchain reference.
+ * @param <T> the type of elements in this list
+ */
 class Element<T> {
 
     T num;
