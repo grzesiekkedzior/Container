@@ -1,4 +1,4 @@
-package container;
+
 
 import java.lang.reflect.Array;
 import java.util.Collection;
@@ -61,6 +61,10 @@ import java.util.function.Consumer;
  * List<Integer> list = new List<>(5, 4, 3, 2, 1);
  * List<Integer> secondList = list.sort();
  * return secondList -> 1, 2, 3, 4, 5
+ * 
+ * If you want reverse elements of collection just use reverse method.
+ * <p>
+ * It return new List reverse elements.
  * 
  * }</pre>
  *
@@ -322,6 +326,20 @@ public class Container<T> implements List<T> {
     	List<T> l = new Container();
         for(T t : this) {
         	l.addSorted(t);
+        }
+        
+        return l;
+    }
+
+    /**
+	 * This method revers all collection of element.
+	 * @return new List of revers elements
+	 */
+    @Override
+    public List<T> reverse() {
+    	List<T> l = new Container();
+        for(int i = this.size(); i > 0; i--) {
+            l.add(this.getNode(i));
         }
         
         return l;

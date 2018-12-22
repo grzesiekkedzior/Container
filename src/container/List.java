@@ -1,4 +1,4 @@
-package container;
+
 
 /**
  * This interface has several methods which allow duplicate elements.
@@ -57,7 +57,13 @@ public interface List<T> extends Iterable<T>{
      * This method sort List but not exactly the same but return new one.
      * @return new linked List
      */
-    List<T> sort();
+	List<T> sort();
+	
+	/**
+	 * This method revers all collection of element.
+	 * @return new List of revers elements
+	 */
+	List<T> reverse();
 
 
 }
