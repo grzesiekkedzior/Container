@@ -1,5 +1,4 @@
 
-
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Collections;
@@ -40,32 +39,32 @@ import java.util.function.Consumer;
  *
  * To print console:
  * for(int i : arr) {System.out.println(i)};
- * 
+ *
  * In this project is implemented own interface Iterable<T>
  * It can be use like usually.
  * For exaample:
- * 
+ *
  * List<Integer> list = new Container<>(1, 2, 3, 4);
  * for(int i : list) { System.out.println(i); }
- * 
+ *
  * In that case it can be use lambda expression.
- * 
+ *
  * list.forEach(num -> { System.out.println(num); });
  *
  * Simplier is use method reference:
- * 
+ *
  * list.forEach(System.out::println);
- * 
+ *
  * The sort() method return new List.
- * 
+ *
  * List<Integer> list = new List<>(5, 4, 3, 2, 1);
  * List<Integer> secondList = list.sort();
  * return secondList -> 1, 2, 3, 4, 5
- * 
+ *
  * If you want reverse elements of collection just use reverse method.
  * <p>
  * It return new List reverse elements.
- * 
+ *
  * }</pre>
  *
  * @author Grzegorz Kedzior
@@ -117,12 +116,13 @@ public class Container<T> implements List<T> {
 
     /**
      * Construct which agregate many elements.
-     * 
+     *
      * @param args collection elements
      */
     public Container(T... args) {
         this.of(args);
     }
+
     /**
      * Appends the specified element to the list.
      */
@@ -315,33 +315,35 @@ public class Container<T> implements List<T> {
 
         return tab;
     }
-    
+
     /**
      * This method sort List but not exactly the same but return new one.
+     *
      * @param <T> Type of element
      * @return new linked List
      */
     @Override
     public List<T> sort() {
-    	List<T> l = new Container();
-        for(T t : this) {
-        	l.addSorted(t);
+        List<T> l = new Container();
+        for (T t : this) {
+            l.addSorted(t);
         }
-        
+
         return l;
     }
 
     /**
-	 * This method revers all collection of element.
-	 * @return new List of revers elements
-	 */
+     * This method revers all collection of element.
+     *
+     * @return new List of revers elements
+     */
     @Override
     public List<T> reverse() {
-    	List<T> l = new Container();
-        for(int i = this.size(); i > 0; i--) {
+        List<T> l = new Container();
+        for (int i = this.size(); i > 0; i--) {
             l.add(this.getNode(i));
         }
-        
+
         return l;
     }
 
@@ -384,8 +386,80 @@ public class Container<T> implements List<T> {
         return null;
     }
 
-    
+    /**
+     * Returns true if this list contains the specified element.
+     */
+    @Override
+    public boolean contains(Object o) {
+        int size = this.size();
+        if (o == null) {
+            for (int i = 1; i < size; i++) {
+                if (this.getNode(i) == null);
+            }
+            return false;
+        } else {
+            for (int i = 1; i < size; i++) {
+                if (o.equals(this.getNode(i))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
+    /**
+     * Returns a view of the portion of this list between the specified
+     * fromIndex, inclusive, and toIndex, exclusive.
+     *
+     * @param fromIndex low endpoind of the sublist
+     * @param toIndex high endpoint of the sublist
+     *
+     * @return new sublist
+     */
+    public List<T> subList(int fromIndex, int toIndex) {
+        int size = this.size();
+        List<T> l = new Container<>();
+        if (fromIndex < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (toIndex > size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        if (fromIndex < 0 || toIndex <= size || fromIndex < toIndex) {
+            for (int i = fromIndex; i <= toIndex; i++) {
+                l.add(this.getNode(i));
+            }
+        }
+
+        return l;
+    }
+
+    /**
+     * Removes all of the elements from this list
+     */
+    @Override
+    public void clear() {
+        int size = this.size();
+        for (int i = 1; i < size; i++) {
+            this.add(null);
+        }
+        this.top = null;
+        this.current = null;
+    }
+
+    /**
+     * Returns true if this list contains no elements.
+     */
+    @Override
+    public boolean isEmpty() {
+        int size = this.size();
+        if (size < 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 /**
