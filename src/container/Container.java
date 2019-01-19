@@ -235,12 +235,12 @@ public class Container<T> implements List<T> {
                 searchingNumber = searchingNumber.next;
             }
         } else {
-            System.out.println("indexOut");
+            throw new IndexOutOfBoundsException();
         }
         if (target != null) {
             t = target.num;
         } else {
-            System.out.println("null");
+            throw new NullPointerException();
         }
 
         return t;
@@ -293,6 +293,32 @@ public class Container<T> implements List<T> {
 
     }
 
+    public void addIndex(int index, T n) {
+		
+        if (index <= 0 || index > size()) {
+            System.out.println("indexOut");
+        } else {
+			insert = new Element<>(n);
+            if (index == 1) {
+                top = top.next;
+            }
+			
+            current = null;
+            current = top;
+
+            if (current != null) {
+                for (int a = 1; a < index; a++) {
+                    previous = current;
+                    current = current.next;
+                }
+            }
+
+            if (index > 1) {
+                previous.next = current.next;
+            }
+        }
+
+    }
     /**
      * This method generated Array.
      *

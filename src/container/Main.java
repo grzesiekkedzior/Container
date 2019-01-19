@@ -19,16 +19,8 @@ public class Main {
     public static void main(String args[]) {
 
         List<Integer> list = new Container(1,2,3,4,5,6);
-        List<Integer> list2 = list.reverse();
-        list2.showAll();
-        //System.out.println(list2.contains(7));
-        List<Integer> subList = list2.subList(1, 3);
-        subList.clear();
-        System.out.println(subList.isEmpty());
-        subList.add(100);
-        
-        subList.showAll();
-        //.out.println(subList.isEmpty());
+        list.addIndex(4,2);
+		list.showAll();
         
         
     }

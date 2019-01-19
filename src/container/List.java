@@ -1,10 +1,12 @@
+package container;
+
+
+import java.util.Iterator;
 
 /**
  * This interface has several methods which allow duplicate elements.
  * <p>
  * The user can access elements by its integer index.
- * <p>
- * Only two methods returns value.
  *
  * @param <T> Type of collection element
  */
@@ -83,27 +85,43 @@ public interface List<T> extends Iterable<T> {
 
     /**
      * Returns true if this list contains the specified element.
+     *
+     * @param o element whose presence in this collection is to be tested
+     * @return <tt>true</tt> if this collection contains the specified element
      */
     boolean contains(Object o);
 
     /**
      * Returns a view of the portion of this list between the specified
      * fromIndex, inclusive, and toIndex, exclusive.
-     * 
-     * @param  fromIndex low endpoind of the sublist
-     * @param  toIndex high endpoint of the sublist
-     * 
+     *
+     * @param fromIndex low endpoind of the sublist
+     * @param toIndex high endpoint of the sublist
+     *
      * @return new sublist
      */
     List<T> subList(int fromIndex, int toIndex);
-    
+
     /**
      * Removes all of the elements from this list
      */
     void clear();
-    
+
     /**
      * Returns true if this list contains no elements.
+     *
+     * @return <tt>true</tt> if this list contains no elements
      */
     boolean isEmpty();
+
+    /**
+     * Inserts the specified element at the specified position in this list.
+     * Shifts the element currently at that position (if any) and any subsequent
+     * elements to the right.
+     *
+     * @param index index at which the specified element is to be inserted
+     * @param element element to be inserted
+     * @throws IndexOutOfBoundsException {@inheritDoc}
+     */
+    void addIndex(int index, T element);
 }
