@@ -496,7 +496,7 @@ public class Container<T> implements List<T> {
 class Element<T> {
 
     T num;
-    Element next;
+    Element<T> next;
 
     public Element(T n) {
         num = n;
