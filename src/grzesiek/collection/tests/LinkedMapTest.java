@@ -82,7 +82,8 @@ class LinkedMapTest {
 		linkedmap.put("key1", 10);
 		linkedmap.put("key1", 20);
 		linkedmap.put("key1", 30);
-		assertEquals(30, linkedmap.get("key1").intValue());
+		linkedmap.put("key1", 40);
+		assertEquals(40, linkedmap.get("key1").intValue());
 		assertEquals(1, linkedmap.size());
 	}
 }
