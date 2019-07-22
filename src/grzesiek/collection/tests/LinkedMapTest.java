@@ -1,9 +1,11 @@
 package grzesiek.collection.tests;
 
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import grzesiek.collection.map.LinkedMap;
@@ -85,5 +87,23 @@ class LinkedMapTest {
 		linkedmap.put("key1", 40);
 		assertEquals(40, linkedmap.get("key1").intValue());
 		assertEquals(1, linkedmap.size());
+	}
+	
+	@Test
+	public void testRemove() {
+		Map<String, Integer> linkedmap = new LinkedMap<String, Integer>();
+		linkedmap.put("key1", 10);
+		linkedmap.put("key2", 20);
+		linkedmap.put("key3", 30);
+		linkedmap.remove("key1");
+		
+		assertThrows(NullPointerException.class, ()->linkedmap.get("key1"));
+		assertEquals(20, linkedmap.get("key2").intValue());
+		assertEquals(30, linkedmap.get("key3").intValue());
+		
+		linkedmap.remove("key3");
+		assertThrows(NullPointerException.class, ()->linkedmap.get("key3"));
+		
+		
 	}
 }

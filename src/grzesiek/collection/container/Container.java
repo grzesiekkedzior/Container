@@ -18,7 +18,9 @@ import java.util.function.Consumer;
  * If you want add only one element unsorted use only add method.
  * <p>
  * Example:
- * <pre>{@code
+ * 
+ * <pre>
+ * {@code
  * Constructor cannot be empty. There is no capacity initialize value.
  *
  * List<Integer> list = new Container<>(1, 2, 3, 4);
@@ -66,427 +68,435 @@ import java.util.function.Consumer;
  * <p>
  * It return new List reverse elements.
  *
- * }</pre>
+ * }
+ * </pre>
  *
  * @author Grzegorz Kedzior
  * @param <T> Type of collection element
  */
 public class Container<T> implements List<T> {
 
-    private Element<T> top = null;
-    private Element<T> current = null;
-    private Element<T> last = null;
-    private Element<T> insert = null;
-    private Element<T> previous = null;
-    Optional<T> optional = Optional.empty();
+	private Element<T> top = null;
+	private Element<T> current = null;
+	private Element<T> last = null;
+	private Element<T> insert = null;
+	private Element<T> previous = null;
+	Optional<T> optional = Optional.empty();
 
-    /**
-     * Construct an list which get array of integer elements.
-     *
-     * @param tab the array contain collection
-     */
-    public Container(int tab[]) {
-        for (int a : tab) {
-            T t = (T) (Integer) a;
-            this.add(t);
-        }
-    }
+	/**
+	 * Construct an list which get array of integer elements.
+	 *
+	 * @param tab the array contain collection
+	 */
+	public Container(int tab[]) {
+		for (int a : tab) {
+			T t = (T) (Integer) a;
+			this.add(t);
+		}
+	}
 
-    /**
-     * Construct an list which get array of double elements.
-     *
-     * @param tab the array contain collection
-     */
-    public Container(double tab[]) {
-        for (double a : tab) {
-            T t = (T) (Double) a;
-            this.add(t);
-        }
-    }
+	/**
+	 * Construct an list which get array of double elements.
+	 *
+	 * @param tab the array contain collection
+	 */
+	public Container(double tab[]) {
+		for (double a : tab) {
+			T t = (T) (Double) a;
+			this.add(t);
+		}
+	}
 
-    /**
-     * Construct an list which get array of Generic elements.
-     *
-     * @param tab the runtime type of the array to contain the collection
-     */
-    public Container(String tab[]) {
-        for (String t : tab) {
-            this.add((T) t);
-        }
-    }
+	/**
+	 * Construct an list which get array of Generic elements.
+	 *
+	 * @param tab the runtime type of the array to contain the collection
+	 */
+	public Container(String tab[]) {
+		for (String t : tab) {
+			this.add((T) t);
+		}
+	}
 
-    /**
-     * Construct which agregate many elements.
-     *
-     * @param args collection elements
-     */
-    public Container(T... args) {
-        this.of(args);
-    }
+	/**
+	 * Construct which agregate many elements.
+	 *
+	 * @param args collection elements
+	 */
+	public Container(T... args) {
+		this.of(args);
+	}
 
-    /**
-     * Appends the specified element to the list.
-     */
-    @Override
-    public void add(T n) {
-        optional = Optional.ofNullable(n);
-        while (optional.isPresent()) {
-            current = new Element<>(n);
-            if (top == null) {
-                top = current;
-            } else {
-                last.next = current;
-            }
-            last = current;
-            break;
-        }
+	/**
+	 * Appends the specified element to the list.
+	 */
+	@Override
+	public void add(T n) {
+		optional = Optional.ofNullable(n);
+		while (optional.isPresent()) {
+			current = new Element<>(n);
+			if (top == null) {
+				top = current;
+			} else {
+				last.next = current;
+			}
+			last = current;
+			break;
+		}
 
-    }
+	}
 
-    /**
-     * Appends the specified element before the first.
-     */
-    @Override
-    public void addOnBack(T n) {
-        optional = Optional.ofNullable(n);
-        if (optional.isPresent()) {
+	/**
+	 * Appends the specified element before the first.
+	 */
+	@Override
+	public void addOnBack(T n) {
+		optional = Optional.ofNullable(n);
+		if (optional.isPresent()) {
 
-            current = new Element<>(n);
-            current.next = top;
+			current = new Element<>(n);
+			current.next = top;
 
-            top = current;
-        }
-    }
+			top = current;
+		}
+	}
 
-    /**
-     * Show all elements.
-     */
-    @Override
-    public void showAll() {
-        current = top;
-        while (current != null) {
-            System.out.println(current.num);
-            current = current.next;
-        }
-    }
+	/**
+	 * Show all elements.
+	 */
+	@Override
+	public void showAll() {
+		current = top;
+		while (current != null) {
+			System.out.println(current.num);
+			current = current.next;
+		}
+	}
 
-    /**
-     * Appends the specified generic element for the next smallest element.
-     */
-    @Override
-    public void addSorted(T n) {
+	/**
+	 * Appends the specified generic element for the next smallest element.
+	 */
+	@Override
+	public void addSorted(T n) {
 
-        int a = 0;
-        int b = 0;
-        insert = new Element<>(n);
-        previous = null;
-        current = top;
-        if (current != null && current.num instanceof Integer) {
-            a = (Integer) n;
-        }
+		int a = 0;
+		int b = 0;
+		insert = new Element<>(n);
+		previous = null;
+		current = top;
+		if (current != null && current.num instanceof Integer) {
+			a = (Integer) n;
+		}
 
-        while (current != null && current.num instanceof Integer
-                && (b = (Integer) current.num) < a) {
-            previous = current;
-            current = current.next;
-        }
+		while (current != null && current.num instanceof Integer && (b = (Integer) current.num) < a) {
+			previous = current;
+			current = current.next;
+		}
 
-        while (current != null && current.num instanceof String
-                && current.num.toString().compareToIgnoreCase(n.toString()) < 0) {
-            previous = current;
-            current = current.next;
-        }
+		while (current != null && current.num instanceof String
+				&& current.num.toString().compareToIgnoreCase(n.toString()) < 0) {
+			previous = current;
+			current = current.next;
+		}
 
-        insert.next = current;
-        if (previous == null) {
-            top = insert;
-        } else {
-            previous.next = insert;
-        }
-    }
+		insert.next = current;
+		if (previous == null) {
+			top = insert;
+		} else {
+			previous.next = insert;
+		}
+	}
 
-    /**
-     * Returns the number of elements in this list.
-     *
-     * @return the number of elements in this list
-     */
-    @Override
-    public int size() {
-        int size = 0;
-        current = top;
-        while (current != null) {
-            size++;
-            current = current.next;
-        }
-        return size;
-    }
+	/**
+	 * Returns the number of elements in this list.
+	 *
+	 * @return the number of elements in this list
+	 */
+	@Override
+	public int size() {
+		int size = 0;
+		current = top;
+		while (current != null) {
+			size++;
+			current = current.next;
+		}
+		return size;
+	}
 
-    /**
-     * Returns the element at the specified position in this list.
-     */
-    @Override
-    public T getNode(int n) {
-        int size = this.size();
-        Element<T> searchingNumber = top;
-        Element<T> target = null;
-        T t = null;
-        if (n <= size() && searchingNumber != null) {
-            for (int a = 0; a < n; a++) {
-                target = searchingNumber;
-                searchingNumber = searchingNumber.next;
-            }
-        } else {
-            throw new IndexOutOfBoundsException();
-        }
-        if (target != null) {
-            t = target.num;
-        } else {
-            throw new NullPointerException();
-        }
+	/**
+	 * Returns the element at the specified position in this list.
+	 */
+	@Override
+	public T getNode(int n) {
+		int size = this.size();
+		Element<T> searchingNumber = top;
+		Element<T> target = null;
+		T t = null;
+		if (n <= size() && searchingNumber != null) {
+			for (int a = 0; a < n; a++) {
+				target = searchingNumber;
+				searchingNumber = searchingNumber.next;
+			}
+		} else {
+			throw new IndexOutOfBoundsException();
+		}
+		if (target != null) {
+			t = target.num;
+		} else {
+			throw new NullPointerException();
+		}
 
-        return t;
-    }
+		return t;
+	}
 
-    /**
-     *
-     * @return first top list reference
-     */
-    public Element<T> getTop() {
-        return this.top;
-    }
+	/**
+	 *
+	 * @return first top list reference
+	 */
+	public Element<T> getTop() {
+		return this.top;
+	}
 
-    /**
-     * This method agregate many elements.
-     *
-     * @param args varargs elements
-     */
-    public void of(T... args) {
-        for (T element : args) {
-            this.add(element);
-        }
-    }
+	/**
+	 * This method agregate many elements.
+	 *
+	 * @param args varargs elements
+	 */
+	public void of(T... args) {
+		for (T element : args) {
+			this.add(element);
+		}
+	}
 
-    /**
-     * Removes the element at the specified position in this list.
-     */
-    @Override
-    public void removeNode(int n) {
-        if (n <= 0 || n > size()) {
-            System.out.println("indexOut");
-        } else {
-            if (n == 1) {
-                top = top.next;
-            }
-            current = null;
-            current = top;
+	/**
+	 * Removes the element at the specified position in this list.
+	 */
+	@Override
+	public void removeNode(int n) {
+		if (n <= 0 || n > size()) {
+			System.out.println("indexOut");
+		} else {
+			if (n == 1) {
+				top = top.next;
+			}
+			current = null;
+			current = top;
 
-            if (current != null) {
-                for (int a = 1; a < n; a++) {
-                    previous = current;
-                    current = current.next;
-                }
-            }
+			if (current != null) {
+				for (int a = 1; a < n; a++) {
+					previous = current;
+					current = current.next;
+				}
+			}
 
-            if (n > 1) {
-                previous.next = current.next;
-            }
-        }
+			if (n > 1) {
+				previous.next = current.next;
+			}
+		}
 
-    }
+	}
 
-    public void addIndex(int index, T n) {
-		
-        if (index <= 0 || index > size()) {
-            System.out.println("indexOut");
-        } else {
+	public void addIndex(int index, T n) {
+
+		if (index <= 0 || index > size()) {
+			System.out.println("indexOut");
+		} else {
 			insert = new Element<>(n);
-            if (index == 1) {
-                top = top.next;
-            }
-			
-            current = null;
-            current = top;
+			if (index == 1) {
+				
+				insert.next = top;
 
-            if (current != null) {
-                for (int a = 1; a < index; a++) {
-                    previous = current;
-                    current = current.next;
-                }
-            }
+				top = insert;
+			}
+			current = null;
+			current = top;
 
-            if (index > 1) {
-                previous.next = current.next;
-            }
-        }
+			if (current != null) {
 
-    }
-    /**
-     * This method generated Array.
-     *
-     * @param <T> Type of element
-     * @param arr An array created to past elements for itsselfs
-     * @return Return the new array
-     */
-    @Override
-    public <T> T[] toArray(T[] arr) {
-        Class<T> type = (Class<T>) arr.getClass().getComponentType(); //return object reference type
-        int i = 0;
-        T[] tab = (T[]) Array.newInstance(type, this.size());
+				for (int a = 1; a < index; a++) {
 
-        current = top;
-        while (current != null) {
-            tab[i] = (T) current.num;
-            current = current.next;
-            i++;
-        }
+					current = current.next;
+					previous = current;
+				}
+			}
 
-        return tab;
-    }
+			if (index > 1) {
+				this.removeNode(index);
+				previous.next = insert;
+				insert.next = current;
+			}
+		}
 
-    /**
-     * This method sort List but not exactly the same but return new one.
-     *
-     * @param <T> Type of element
-     * @return new linked List
-     */
-    @Override
-    public List<T> sort() {
-        List<T> l = new Container();
-        for (T t : this) {
-            l.addSorted(t);
-        }
+	}
 
-        return l;
-    }
+	/**
+	 * This method generated Array.
+	 *
+	 * @param <T> Type of element
+	 * @param arr An array created to past elements for itsselfs
+	 * @return Return the new array
+	 */
+	@Override
+	public <T> T[] toArray(T[] arr) {
+		Class<T> type = (Class<T>) arr.getClass().getComponentType(); // return object reference type
+		int i = 0;
+		T[] tab = (T[]) Array.newInstance(type, this.size());
 
-    /**
-     * This method revers all collection of element.
-     *
-     * @return new List of revers elements
-     */
-    @Override
-    public List<T> reverse() {
-        List<T> l = new Container();
-        for (int i = this.size(); i > 0; i--) {
-            l.add(this.getNode(i));
-        }
+		current = top;
+		while (current != null) {
+			tab[i] = (T) current.num;
+			current = current.next;
+			i++;
+		}
 
-        return l;
-    }
+		return tab;
+	}
 
-    @Override
-    public void forEach(Consumer<? super T> action) {
-        for (T t : this) {
-            action.accept(t);
-        }
-    }
+	/**
+	 * This method sort List but not exactly the same but return new one.
+	 *
+	 * @param <T> Type of element
+	 * @return new linked List
+	 */
+	@Override
+	public List<T> sort() {
+		List<T> l = new Container();
+		for (T t : this) {
+			l.addSorted(t);
+		}
 
-    @Override
-    public Iterator<T> iterator() {
+		return l;
+	}
 
-        List<T> l = this;
-        Iterator<T> it = new Iterator<T>() {
+	/**
+	 * This method revers all collection of element.
+	 *
+	 * @return new List of revers elements
+	 */
+	@Override
+	public List<T> reverse() {
+		List<T> l = new Container();
+		for (int i = this.size(); i > 0; i--) {
+			l.add(this.getNode(i));
+		}
 
-            int currentIndex = 1;
+		return l;
+	}
 
-            @Override
-            public boolean hasNext() {
-                return currentIndex <= l.size() && l.getNode(currentIndex) != null;
-            }
+	@Override
+	public void forEach(Consumer<? super T> action) {
+		for (T t : this) {
+			action.accept(t);
+		}
+	}
 
-            @Override
-            public T next() {
-                return l.getNode(currentIndex++);
-            }
+	@Override
+	public Iterator<T> iterator() {
 
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
+		List<T> l = this;
+		Iterator<T> it = new Iterator<T>() {
 
-        };
-        return it;
-    }
+			int currentIndex = 1;
 
-    @Override
-    public Spliterator<T> spliterator() {
-        return null;
-    }
+			@Override
+			public boolean hasNext() {
+				return currentIndex <= l.size() && l.getNode(currentIndex) != null;
+			}
 
-    /**
-     * Returns true if this list contains the specified element.
-     */
-    @Override
-    public boolean contains(Object o) {
-        int size = this.size();
-        if (o == null) {
-            for (int i = 1; i < size; i++) {
-                if (this.getNode(i) == null);
-            }
-            return false;
-        } else {
-            for (int i = 1; i < size; i++) {
-                if (o.equals(this.getNode(i))) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+			@Override
+			public T next() {
+				return l.getNode(currentIndex++);
+			}
 
-    /**
-     * Returns a view of the portion of this list between the specified
-     * fromIndex, inclusive, and toIndex, exclusive.
-     *
-     * @param fromIndex low endpoind of the sublist
-     * @param toIndex high endpoint of the sublist
-     *
-     * @return new sublist
-     */
-    public List<T> subList(int fromIndex, int toIndex) {
-        int size = this.size();
-        List<T> l = new Container<>();
-        if (fromIndex < 0) {
-            throw new IndexOutOfBoundsException();
-        }
-        if (toIndex > size) {
-            throw new IndexOutOfBoundsException();
-        }
+			@Override
+			public void remove() {
+				throw new UnsupportedOperationException();
+			}
 
-        if (fromIndex < 0 || toIndex <= size || fromIndex < toIndex) {
-            for (int i = fromIndex; i <= toIndex; i++) {
-                l.add(this.getNode(i));
-            }
-        }
+		};
+		return it;
+	}
 
-        return l;
-    }
+	@Override
+	public Spliterator<T> spliterator() {
+		return null;
+	}
 
-    /**
-     * Removes all of the elements from this list
-     */
-    @Override
-    public void clear() {
-        int size = this.size();
-        for (int i = 1; i < size; i++) {
-            this.add(null);
-        }
-        this.top = null;
-        this.current = null;
-    }
+	/**
+	 * Returns true if this list contains the specified element.
+	 */
+	@Override
+	public boolean contains(Object o) {
+		int size = this.size();
+		if (o == null) {
+			for (int i = 1; i < size; i++) {
+				if (this.getNode(i) == null)
+					;
+			}
+			return false;
+		} else {
+			for (int i = 1; i < size; i++) {
+				if (o.equals(this.getNode(i))) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
-    /**
-     * Returns true if this list contains no elements.
-     */
-    @Override
-    public boolean isEmpty() {
-        int size = this.size();
-        if (size < 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+	/**
+	 * Returns a view of the portion of this list between the specified fromIndex,
+	 * inclusive, and toIndex, exclusive.
+	 *
+	 * @param fromIndex low endpoind of the sublist
+	 * @param toIndex   high endpoint of the sublist
+	 *
+	 * @return new sublist
+	 */
+	public List<T> subList(int fromIndex, int toIndex) {
+		int size = this.size();
+		List<T> l = new Container<>();
+		if (fromIndex < 0) {
+			throw new IndexOutOfBoundsException();
+		}
+		if (toIndex > size) {
+			throw new IndexOutOfBoundsException();
+		}
+
+		if (fromIndex < 0 || toIndex <= size || fromIndex < toIndex) {
+			for (int i = fromIndex; i <= toIndex; i++) {
+				l.add(this.getNode(i));
+			}
+		}
+
+		return l;
+	}
+
+	/**
+	 * Removes all of the elements from this list
+	 */
+	@Override
+	public void clear() {
+		int size = this.size();
+		for (int i = 1; i < size; i++) {
+			this.add(null);
+		}
+		this.top = null;
+		this.current = null;
+	}
+
+	/**
+	 * Returns true if this list contains no elements.
+	 */
+	@Override
+	public boolean isEmpty() {
+		int size = this.size();
+		if (size < 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 
 /**
@@ -495,11 +505,11 @@ public class Container<T> implements List<T> {
  */
 class Element<T> {
 
-    T num;
-    Element<T> next;
+	T num;
+	Element<T> next;
 
-    public Element(T n) {
-        num = n;
-        next = null;
-    }
+	public Element(T n) {
+		num = n;
+		next = null;
+	}
 }

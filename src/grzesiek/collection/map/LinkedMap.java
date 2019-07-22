@@ -11,6 +11,7 @@ public class LinkedMap<K, V> implements Map<K, V> {
 	private Node<K, V> top = null;
 	private Node<K, V> current = null;
 	private Node<K, V> last = null;
+	private Node<K, V> previous = null;
 
 	/**
 	 * Default constructor.
@@ -32,7 +33,7 @@ public class LinkedMap<K, V> implements Map<K, V> {
 		if (key != null)
 			current = new Node<>(key, value);
 
-		if (checkIffindKey(key, value)) {
+		if (checkIffindKey(key)) {
 			Node<K, V> findekey = top;
 			while (findekey != null) {
 				if (findekey.key.equals(key))
@@ -57,7 +58,7 @@ public class LinkedMap<K, V> implements Map<K, V> {
 
 	}
 
-	private boolean checkIffindKey(K key, V value) {
+	private boolean checkIffindKey(K key) {
 		Node<K, V> findekey = top;
 		boolean colisionkey = false;
 		while (findekey != null) {
@@ -92,7 +93,21 @@ public class LinkedMap<K, V> implements Map<K, V> {
 
 	@Override
 	public void remove(Object key) {
-		//TODO
+		current = top;
+		int size = this.size();
+		for (int i = 0; i < size; i++) {
+			if (i == 0 && current != null && current.key.equals(key)) {
+				top = top.next;
+				current = top;
+			} else if (current != null && current.key.equals(key)) {
+				previous.next = current.next;
+
+			} else {
+				previous = current;
+				current = current.next;
+			}
+		}
+
 	}
 
 	@Override
